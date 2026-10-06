@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>הספירה לאחור - בר המצווה של אבישי</title>
+    <style>
+        body { 
+            margin: 0; font-family: 'Heebo', system-ui, sans-serif; 
+            background: #0F172A; color: #ffffff; 
+            display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            min-height: 100vh; overflow-x: hidden;
+        }
+        h1 { color: #E2E8F0; font-size: 2.5rem; margin-bottom: 5px; text-align: center; }
+        h2 { color: #94A3B8; font-size: 1.2rem; margin-bottom: 40px; font-weight: 400; text-align: center; }
+        .timer-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; width: 100%; max-width: 900px; padding: 0 20px; box-sizing: border-box; }
+        .card { 
+            background: #1E293B; border: 1px solid #334155; border-radius: 16px; 
+            padding: 30px 20px; text-align: center; flex: 1; min-width: 300px; 
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
+        .card h3 { color: #FBBF24; margin-top: 0; font-size: 1.6rem; border-bottom: 1px solid #334155; padding-bottom: 15px; margin-bottom: 25px; }
+        .countdown { display: flex; justify-content: center; gap: 15px; direction: ltr; }
+        .time-box { display: flex; flex-direction: column; align-items: center; width: 60px; }
+        .number { 
+            font-size: 2.2rem; font-weight: 700; 
+            background: linear-gradient(180deg, #FDE68A 0%, #D97706 100%); 
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+        }
+        .label { font-size: 0.85rem; color: #94A3B8; margin-top: 5px; text-transform: uppercase; }
+        .location { font-size: 0.95rem; color: #CBD5E1; margin-top: 25px; line-height: 1.5; }
+        @media (max-width: 600px) { .number { font-size: 1.8rem; } .card { min-width: 100%; } }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <h1>אבישי חוגג בר מצווה!</h1>
+    <h2>הספירה לאחור החלה</h2>
+
+    <div class="timer-container">
+        <!-- עלייה לתורה -->
+        <div class="card">
+            <h3>עלייה לתורה</h3>
+            <div class="countdown">
+                <div class="time-box"><span class="number" id="d1">00</span><span class="label">ימים</span></div>
+                <div class="time-box"><span class="number" id="h1">00</span><span class="label">שעות</span></div>
+                <div class="time-box"><span class="number" id="m1">00</span><span class="label">דקות</span></div>
+                <div class="time-box"><span class="number" id="s1">00</span><span class="label">שניות</span></div>
+            </div>
+            <div class="location">5 בנובמבר 2026, 08:00<br>בית כנסת תפארת ישראל</div>
+        </div>
+
+        <!-- מסיבת בר המצווה -->
+        <div class="card">
+            <h3>מסיבת בר המצווה</h3>
+            <div class="countdown">
+                <div class="time-box"><span class="number" id="d2">00</span><span class="label">ימים</span></div>
+                <div class="time-box"><span class="number" id="h2">00</span><span class="label">שעות</span></div>
+                <div class="time-box"><span class="number" id="m2">00</span><span class="label">דקות</span></div>
+                <div class="time-box"><span class="number" id="s2">00</span><span class="label">שניות</span></div>
+            </div>
+            <div class="location">16 בנובמבר 2026, 19:00<br>שונס אירועים</div>
+        </div>
+    </div>
+
+    <script>
+        // תאריכים מתוך היומן
+        const target1 = new Date("2026-11-05T08:00:00").getTime();
+        const target2 = new Date("2026-11-16T19:00:00").getTime();
+
+        function updateTimer(target, prefix) {
+            const now = new Date().getTime();
+            const diff = target - now;
+
+            if (diff < 0) {
+                document.getElementById('d' + prefix).parentElement.parentElement.innerHTML = '<h3 style="color:#10B981; margin:0; font-size:2rem;">מזל טוב!</h3>';
+                return;
+            }
+
+            document.getElementById('d' + prefix).innerText = Math.floor(diff / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+            document.getElementById('h' + prefix).innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+            document.getElementById('m' + prefix).innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+            document.getElementById('s' + prefix).innerText = Math.floor((diff % (1000 * 60)) / 1000).toString().padStart(2, '0');
+        }
+
+        setInterval(() => {
+            updateTimer(target1, '1');
+            updateTimer(target2, '2');
+        }, 1000);
+        
+        updateTimer(target1, '1');
+        updateTimer(target2, '2');
+    </script>
+</body>
+</html>
